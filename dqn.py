@@ -99,18 +99,18 @@ def train_q_network(input,prob_action,sess):
             b1=get_rect_after_action(b,b,action,percent)
             action_reward=reward_calu(b,b1,g,tau,eta,trigger)
             print('----b1----',b1)
-            #st1_img = crop_image(img, b1)
-            #st1_img=st1_img.resize((224,224))
-            #st1_image=extract_feature(st1_img,sess1,vgg)
-            #history=get_history(history,action_index)
-            #st1=np.vstack((st1_image,history))
+            st1_img = crop_image(img, b1)
+            st1_img=st1_img.resize((224,224))
+            st1_image=extract_feature(st1_img,sess1,vgg)
+            history=get_history(history,action_index)
+            st1=np.vstack((st1_image,history))
             learning_path.append(b1)
 
             b=b1
             counter+=1
             if counter>=number_steps:
                 trigger=True
-            '''
+            
             D.append((st,action_index,action_reward,st1))
             if len(D)>N_exp_replay: D.popleft()
             st=st1
@@ -138,7 +138,7 @@ def train_q_network(input,prob_action,sess):
                  if t%epsilon_reduce==0 and epsilon>= final_epsilon:
                     epsilon-=(init_epsilon-final_epsilon)/total_episodes
                  if t%N_save_net==0:
-                    tf.train.Saver().save(sess,'savenetworks/'+'dqn',global_step=t)'''
+                    tf.train.Saver().save(sess,'savenetworks/'+'dqn',global_step=t)
         plot_path(learning_path, img)
 
 def main():
